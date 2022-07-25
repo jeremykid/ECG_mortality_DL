@@ -1,6 +1,6 @@
-# ECG_mortality_model
-
-
+# Scripts and modules for training and testing of deep learning models for predicting mortality using ECGs
+<This is the companion code base for the paper the 'title of the paper'. 
+<Prediction task picture>
 
 ## Requirements
 
@@ -18,41 +18,52 @@ seaborn>=0.11.2
 openpyxl>=3.0
 
 For PyTorch Version
+<list out the requirements>
 
-## automatic ResNet Model[1]
 
-Input: X_ecg shape = (N, 4096, 12), demographic_feature shape = (N, demographic_size)
+## Deep learning algorithms
+We used two different deep learning frameworks as listed below. 
+This is single or multiple binary label prediction task - eg: 30-day mortality, 365-day mortality, 5-year mortality
 
-In X_ecg: The leads are following order: {I, II, III, AVR, AVL, AVF, V1, V2, V3, V4, V5, V6}. All signal are represented as 32 bits floating point numbers. 
+### 1) ResNet
 
-In demographic_feature: The features are represent as 32 bits floating point numbers. 
+<Model arch figure>
 
-Output: shape = (N, label_size)
+Input: X_ecg shape = (N, 4096, 12), tabular_feature shape = (N, tabular_size)
+<Where X_ecg: 12 lead ECG voltage time series traces, tabular_feature: Age, Sex and Lab, N: Number of instances>
+In X_ecg: The leads are following order: {I, II, III, AVR, AVL, AVF, V1, V2, V3, V4, V5, V6}. 
+All ECG signals and tabular features are represented as 32 bits floating point numbers. 
 
-In training dataset, there are binary bits for each entry. In model output, output is the probablity between 0 and 1
+Output: shape = (N, label_size). Each entry of output is the probablities between 0 and 1, and  can be understood as the probability of mortality for a given patient.
 
-## raghunath_model[2]
+
+### 2) Raghunath_DNN
 
 Input: X_ecg shape = (N, 5040, 12) since 
+<same as above>
 
+# Synthetic Dataset
+<Data Confidentiality Statement>
+<to do... >
+<This dataset is artifically generated using variational autoencoders for purpose of code demostration only. They are not expected to accurately represent real ECG signals> 
 
 ## Script
 
-In tensorflow
+train.py: Script for training the neural network. To train the neural network run:
 
-Method: 'automatic_ecg' or 'raghunath_cnn_ecg'
+python3 train.py --method automatic_ecg --label_path label_df.pickle --tabular_path tabular_df.pickle --train_path train_ID_list.pickle --val_path val_ID_list.pickle
 
-label_df: dataframe, index is ECG_IDs, shape is (N, label_size)
+method: Choice of model architecture - 'automatic_ecg' or 'raghunath_cnn_ecg' <change names>
+label_path : path to label dataframe, index is ECG_IDs, shape is (N, label_size)
+tabular_path: path to tabular dataframe, index is ECG_IDs, shape is (N, feature_size)
+train_path: path to list of training ECG_IDs
+val_path: path list of validation ECG_IDs
 
-demographic_df: dataframe, index is ECG_IDs, shape is (N, feature_size)
+ECG path: each ECG file is npy.gz format and name as {ECG_ID}npy.gz <update>
 
-train_ID_list: list of training ECG_IDs
+predict.py: Script for generating the neural network predictions on a given dataset.
+$ python predict.py --method automatic_ecg --test_path test_ID_list.pickle --ouput_file PATH_TO_OUTPUT_FILE 
 
-val_ID_list: list of validation ECG_IDs
-
-ECG path: each ECG file is npy.gz format and name as {ECG_ID}npy.gz
-
-python3 train.py --method automatic_ecg --label_path label_df.pickle --demographic_path demographic_df.pickle --train_path train_ID_list.pickle --val_path val_ID_list.pickle
 
 ## Reference
 
