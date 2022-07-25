@@ -4,11 +4,8 @@ import pandas as pd
 from tensorflow.keras.layers import (
     Input, Conv1D, MaxPooling1D, Dropout, BatchNormalization, Activation, Add, Flatten, Dense)
 from tensorflow.keras.models import Model
-import matplotlib.pyplot as plt
-from itertools import cycle
 import gzip
 import tensorflow as tf
-import neurokit2 as nk
 
 class ResidualUnit(object):
     """Residual unit block (unidimensional).
@@ -117,7 +114,7 @@ class ResidualUnit(object):
             y = x
         return [x, y]
 
-def get_model_lab(n_classes, last_layer='sigmoid', lab_number = 5):
+def get_model_lab(n_classes, last_layer='sigmoid', lab_number = 2):
     kernel_size = 16
     kernel_initializer = 'he_normal'
     signal = Input(shape=(4096, 12), dtype=np.float32, name='signal')
@@ -136,8 +133,8 @@ def get_model_lab(n_classes, last_layer='sigmoid', lab_number = 5):
                         kernel_initializer=kernel_initializer)([x, y])
     x = Flatten()(x)
     
-    tabular = Input(shape=(2 + lab_number), dtype=np.float32, name='tabular')
-    x_tab = Dense(5*(2 + lab_number),activation='relu')(tabular)
+    tabular = Input(shape=(lab_number), dtype=np.float32, name='tabular')
+    x_tab = Dense(5*(lab_number),activation='relu')(tabular)
 #     x_tab = Dense(10,activation='relu')(x_tab)
     
     concat = tf.keras.layers.Concatenate()([x, x_tab])
@@ -147,19 +144,19 @@ def get_model_lab(n_classes, last_layer='sigmoid', lab_number = 5):
     model = Model(inputs=[signal,tabular], outputs=diagn)
     return model 
 
-class DataGenerator_lab_ID(keras.utils.Sequence):
+class DataGenerator_lab(keras.utils.Sequence):
     'Generates data for Keras'
-    def __init__(self, list_IDs, ecg_labels,age_sex=False, batch_size=64,
-                 n_classes=17, shuffle=False,features_complete=False, lab_size=5,
-                np_path = "/home/padmalab/ecg/data/processed/ecgs_compressed/ecgs_np/%s.xml.npy.gz"):
+    def __init__(self, list_IDs, ecg_labels, demographic=False, batch_size=64,
+                 n_classes=10, shuffle=False, features_complete=False, demographic_size=2,
+                np_path = "./ecgs_np/%s.xml.npy.gz"):
         'Initialization'
         self.batch_size = batch_size
         self.labels = ecg_labels
         self.list_IDs = list_IDs
         self.n_classes = n_classes
         self.shuffle = shuffle
-        self.agsx_df = age_sex
-        self.lab_size = lab_size
+        self.agsx_df = demographic
+        self.lab_size = demographic_size
         self.np_path = np_path
         self.on_epoch_end()
 
@@ -178,7 +175,7 @@ class DataGenerator_lab_ID(keras.utils.Sequence):
         # Generate data
         X, y, list_IDs_temp = self.__data_generation(list_IDs_temp)
 
-        return X, y, list_IDs_temp
+        return X, y
 
     def on_epoch_end(self):
         'Updates indexes after each epoch'
@@ -190,7 +187,7 @@ class DataGenerator_lab_ID(keras.utils.Sequence):
         
         'Generates data containing batch_size samples' 
         X = np.empty((self.batch_size, 4096,12))
-        X_agsx = np.zeros((self.batch_size, 2 + self.lab_size))
+        X_agsx = np.zeros((self.batch_size, self.lab_size))
         y = np.zeros((self.batch_size, self.n_classes))
         for i, ID in enumerate(list_IDs_temp):
             try: 
@@ -206,6 +203,6 @@ class DataGenerator_lab_ID(keras.utils.Sequence):
             try:
                 X_agsx[i] = self.agsx_df.loc[ID].to_numpy()
             except:
-                print("please supply age and sex dataframe to the data generator", ID)
+                print("please supply demographic dataframe to the data generator", ID)
                 break
         return (X,X_agsx), y, list_IDs_temp
