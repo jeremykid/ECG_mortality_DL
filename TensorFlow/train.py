@@ -32,9 +32,9 @@ import imp
 if __name__ == "__main__":
     # Get data and train
     parser = argparse.ArgumentParser(description='Train neural network.')
-    parser.add_argument("--method", type=str, default='automatic_ecg') # first, last, random, all
+    parser.add_argument("--method", type=str, default='ResNet') # first, last, random, all
     parser.add_argument("--label_path", type=str) # first, last, random, all
-    parser.add_argument("--demographic_path", type=str) # first, last, random, all
+    parser.add_argument("--tabular_path", type=str) # first, last, random, all
     parser.add_argument("--train_path", type=str) # training data path
     parser.add_argument("--val_path", type=str) # training data path
     parser.add_argument("--ecg_np_path", type=str, default = "/home/padmalab/ecg/data/processed/ecgs_compressed/ecgs_np/%s.xml.npy.gz") # ECG data path
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     method = args.method
     label_df = pd.read_pickle(args.label_path)
-    demographic_df = pd.read_pickle(args.demographic_path)
+    demographic_df = pd.read_pickle(args.tabular_path)
     train = pd.read_pickle(args.train_path)
     val = pd.read_pickle(args.val_path)
     ecg_np_path = args.ecg_np_path
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                  EarlyStopping(patience=9,  # Patience should be larger than the one in ReduceLROnPlateau
                                min_delta=0.00001)]
 
-    if method == 'raghunath_cnn_ecg':
+    if method == 'Raghunath_DNN':
         training_generator = tflow_cnn.DataGenerator_raghunath_lab(train, label_df, demographic=demographic_df, 
                                                             n_classes=label_number, batch_size=batch_size, demographic_size=demographic_size,
                                                             np_path = ecg_np_path)
@@ -115,7 +115,7 @@ if __name__ == "__main__":
                                                             np_path = ecg_np_path)
 
         model = tflow_cnn.get_raghunath_model(label_number, demographic_size)
-    elif method == 'automatic_ecg':
+    elif method == 'ResNet':
         training_generator = tflow_resnet.DataGenerator_lab(train, label_df, demographic=demographic_df, 
                                                             n_classes=label_number, batch_size=batch_size, demographic_size=demographic_size,
                                                             np_path = ecg_np_path)
@@ -126,7 +126,7 @@ if __name__ == "__main__":
         model = tflow_resnet.get_model_lab(label_number, lab_number=demographic_size)
 
     else:
-        print ('method error, should be one of automatic_ecg or raghunath_cnn_ecg')
+        print ('method error, should be one of ResNet or Raghunath_DNN')
         
     model.compile(loss=loss, optimizer=opt)
     # Create log
