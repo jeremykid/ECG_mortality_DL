@@ -83,8 +83,10 @@ ECG\_PATH: each ECG file is npy.gz format and name as {ECG_ID}npy.gz <update>
 
 predict.py: Script for generating the neural network predictions on a given dataset.
 
-`$ python predict.py --method METHOD_NAME --label_path LABEL_PATH --tabular_path TABULAR_PATH --test_path TEST_PATH --ouput_file PATH_TO_OUTPUT_FILE --ecg_np_path ECG_PATH`
+`$ python predict.py --method METHOD_NAME --model_path MODEL_PATH --label_path LABEL_PATH --tabular_path TABULAR_PATH --test_path TEST_PATH --ouput_file PATH_TO_OUTPUT_FILE --ecg_np_path ECG_PATH`
 
+MODEL\_PATH: The trained model hdf5 file path.
+    
 PATH\_TO\_OUTPUT\_FILE: Output results (N, label_size) and each entry contains the probablities between 0 and 1
 
 Test\_PATH: path list of Testing ECG_IDs

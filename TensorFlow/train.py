@@ -25,10 +25,11 @@ from tensorflow.keras.layers import (
 from tensorflow.keras.models import Model
 import argparse
 import datetime
-import imp
 
-# python3 train_reg.py --method raghunath_cnn_ecg --label_path /home/weijiesun/ECG_survival/data/demo/label.pickle --demographic_path /home/weijiesun/ECG_survival/data/demo/demographic_df.pickle --train_path /home/weijiesun/ECG_survival/data/demo/train.pickle --val_path /home/weijiesun/ECG_survival/data/demo/val.pickle
-# python3 train_reg.py --method automatic_ecg --label_path /home/weijiesun/ECG_survival/data/demo/label.pickle --demographic_path /home/weijiesun/ECG_survival/data/demo/demographic_df.pickle --train_path /home/weijiesun/ECG_survival/data/demo/train.pickle --val_path /home/weijiesun/ECG_survival/data/demo/val.pickle
+# python3 train.py --method Raghunath_DNN --label_path ../demo_data/label.pickle --tabular_path ../demo_data/demographic_df.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz
+
+# python3 train.py --method ResNet --label_path ../demo_data/label.pickle --tabular_path ../demo_data/demographic_df.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz 
+
 if __name__ == "__main__":
     # Get data and train
     parser = argparse.ArgumentParser(description='Train neural network.')
@@ -37,7 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--tabular_path", type=str) # first, last, random, all
     parser.add_argument("--train_path", type=str) # training data path
     parser.add_argument("--val_path", type=str) # training data path
-    parser.add_argument("--ecg_np_path", type=str, default = "/home/padmalab/ecg/data/processed/ecgs_compressed/ecgs_np/%s.xml.npy.gz") # ECG data path
+    parser.add_argument("--ecg_np_path", type=str, default = "../demo_data/%s.xml.npy.gz") # ECG data path
     
     args = parser.parse_args()
     method = args.method

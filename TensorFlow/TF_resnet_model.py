@@ -198,7 +198,7 @@ class DataGenerator_lab(keras.utils.Sequence):
                     enp = np.zeros([12,4096])
                     pass
                 
-            X[i] = enp.T
+            X[i] = enp
             y[i] = self.labels.loc[ID].to_numpy()
             try:
                 X_agsx[i] = self.agsx_df.loc[ID].to_numpy()

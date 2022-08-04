@@ -156,7 +156,7 @@ class DataGenerator_raghunath_lab(keras.utils.Sequence):
 #                 print (e)
                 pass
                 
-            X[i] = enp.T
+            X[i] = enp
             y[i] = self.labels.loc[ID].to_numpy()
             try:
                 X_agsx[i] = self.agsx_df.loc[ID].to_numpy()
