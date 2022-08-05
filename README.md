@@ -56,15 +56,15 @@ METHOD\_NAME: Choice of model architecture - 'ResNet' or 'DNN'
 'ResNet' is default choice.
 Optional: 'DNN': Deep Convolutional Neural Net based on [2], where X_ecg length is at least 5040 for Leads V1, II, V5, at least 1248 for other leads.   
     
-LABEL\_PATH : path to the label dataframe, index is ECG_IDs, shape is (N, label_size)
+LABEL\_PATH : path to the label dataframe, index is ECG_ID, shape is (N, label_size)
     
-TABULAR\_PATH: path to the tabular dataframe, index is ECG_IDs, shape is (N, feature_size)
+TABULAR\_PATH: path to the tabular dataframe, index is ECG_ID, shape is (N, feature_size)
     
 TRAIN\_PATH: path to the list of training ECG_IDs
     
 VAL\_PATH: path to the list of validation ECG_IDs
 
-ECG\_PATH: each ECG file is npy.gz format and name as {ECG_ID}npy.gz <update>
+ECG\_PATH: each ECG file is in npy.gz format and named as {ECG_ID}.npy.gz 
 
 ### predict.py: Script for generating the neural network predictions on a given (test) dataset.
 
