@@ -1,7 +1,7 @@
 # Scripts and modules to  train deep learning models for mortality prediction using ECGs
-This is the companion code base for the paper the 'Towards artificial intelligence based learning health system for population-level prediction of short and longer-term mortality using electrocardiograms'. 
+This is the companion code base for the paper 'Towards artificial intelligence based learning health system for population-level prediction of short and longer-term mortality using electrocardiograms'. 
 
-This study focused on developing and evaluating ECG based mortality models to predict the probability of a patient dying within 30-days, 1-year and 5-year, starting from the day of ECG acquisition. ECGs to be used in these models can acquired at any time point during a healthcare episode . The goal of the prediction model is to output a calibrated probability of mortality, which could be then used as the patient's risk score for clinical management or resource allocation during patient's stay in the hospital or for prognostic planning after patient's discharge from the hospital. 
+This study focused on developing and evaluating ECG based mortality models to predict the probability of a patient dying within 30-days, 1-year and 5-year, starting from the day of ECG acquisition. ECGs to be used in these models can be acquired at any time point during a healthcare episode . The goal of the prediction model is to output a calibrated probability of mortality, which could be then used as the patient's risk score for clinical management or resource allocation during patient's stay in the hospital or for prognostic planning after patient's discharge from the hospital. 
 
 <Prediction task picture>
 
@@ -33,16 +33,16 @@ Input: X_ecg shape = (N, 4096, 12), tabular_feature shape = (N, tabular_size)
     
 (Where X_ecg: 12 lead ECG voltage time series traces; tabular_feature: Age, Sex and Lab values; N: Number of instances)
     
-In X_ecg: The leads are following order: {I, II, III, AVR, AVL, AVF, V1, V2, V3, V4, V5, V6}. 
+In X_ecg: The leads are in following order: {I, II, III, AVR, AVL, AVF, V1, V2, V3, V4, V5, V6}. 
 
 All ECG signals and tabular features are represented as 32 bits floating point numbers. 
 
-Output: shape = (N, label_size). Each entry of output is a prediction score between 0 and 1, and  can be considered as the probability of mortality for a given patient.
+Output: shape = (N, label_size). Each entry of output is a prediction score between 0 and 1, that can be considered as the probability of mortality for a given patient.
 
 
 ## Synthetic Dataset
 <Data Confidentiality Statement>
-Original training and testing dataset couldn't be shared due to patient confidentially and privacy reasons. We have included an ECG dataset that is artifically generated using variational autoencoders for purpose of code demostration only. They are not expected to accurately represent real ECG signals. 
+Original training and testing dataset couldn't be shared due to patient confidentiality and privacy reasons. We have included an ECG dataset that is artificially  generated using variational autoencoders for the purpose of code demonstration only. They are not expected to accurately represent real ECG signals. 
 
 ## Script
 
@@ -72,7 +72,7 @@ ECG\_PATH: each ECG file is npy.gz format and name as {ECG_ID}npy.gz <update>
 
 MODEL\_PATH: The trained model hdf5 file path.
     
-PATH\_TO\_OUTPUT\_FILE: Output results (N, label_size) and each entry contains the probablities between 0 and 1
+PATH\_TO\_OUTPUT\_FILE: Output results (N, label_size) and each entry contains the probability scores between 0 and 1
 
 Test\_PATH: path to the list of testing ECG_IDs
 
