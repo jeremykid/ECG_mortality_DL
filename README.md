@@ -74,7 +74,7 @@ MODEL\_PATH: The trained model hdf5 file path.
     
 PATH\_TO\_OUTPUT\_FILE: Output results (N, label_size) and each entry contains the probability scores between 0 and 1
 
-Test\_PATH: path to the list of testing ECG_IDs
+TEST\_PATH: path to the list of testing ECG_IDs
 
 ## Reference
 
