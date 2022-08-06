@@ -6,7 +6,9 @@ from tensorflow.keras.layers import (
 from tensorflow.keras.models import Model
 import gzip
 import tensorflow as tf
-
+'''
+[1] Ribeiro, A.H., Ribeiro, M.H., Paixão, G.M.M. et al. Automatic diagnosis of the 12-lead ECG using a deep neural network. Nat Commun 11, 1760 (2020). https://doi.org/10.1038/s41467-020-15432-4
+'''
 class ResidualUnit(object):
     """Residual unit block (unidimensional).
     Parameters
@@ -37,9 +39,9 @@ class ResidualUnit(object):
         Keras activation function to be used. By default 'relu'.
     References
     ----------
-    .. [1] K. He, X. Zhang, S. Ren, and J. Sun, "Identity Mappings in Deep Residual Networks,"
+    .. [2] K. He, X. Zhang, S. Ren, and J. Sun, "Identity Mappings in Deep Residual Networks,"
            arXiv:1603.05027 [cs], Mar. 2016. https://arxiv.org/pdf/1603.05027.pdf.
-    .. [2] K. He, X. Zhang, S. Ren, and J. Sun, "Deep Residual Learning for Image Recognition," in 2016 IEEE Conference
+    .. [3] K. He, X. Zhang, S. Ren, and J. Sun, "Deep Residual Learning for Image Recognition," in 2016 IEEE Conference
            on Computer Vision and Pattern Recognition (CVPR), 2016, pp. 770-778. https://arxiv.org/pdf/1512.03385.pdf
     """
 

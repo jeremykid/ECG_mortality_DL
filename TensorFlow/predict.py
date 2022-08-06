@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn import preprocessing
 import gzip
 import TF_resnet_model as tflow_resnet
-import raghunath_tf_ecg_models as tflow_cnn
+import TF_dnn_ecg_models as tflow_cnn
 import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     
     ################################# 
     
-    if method == 'Raghunath_DNN':
+    if method == 'DNN':
         test_generator = tflow_cnn.DataGenerator_raghunath_lab(test, label_df, demographic=demographic_df, 
                                                             n_classes=label_number, batch_size=batch_size, demographic_size=demographic_size,
                                                             np_path = ecg_np_path)
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         model = tflow_resnet.get_model_lab(label_number, lab_number=demographic_size)
 
     else:
-        print ('method error, should be one of ResNet or Raghunath_DNN')
+        print ('method error, should be one of ResNet or DNN')
     
     ################################# 
     model = tf.keras.models.load_model(model_path, compile=False)#, custom_objects={'batch_weighted_bincrossentropy': batch_weighted_bincrossentropy})

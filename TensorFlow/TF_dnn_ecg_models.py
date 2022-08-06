@@ -7,6 +7,10 @@ from tensorflow.keras.models import Model
 import tensorflow as tf
 import gzip
 
+'''
+[1] S. Raghunath, A. E. Ulloa Cerna, L. Jing, D. P. VanMaanen, J. Stough, D. N. Hartzel, J. B. Leader, H. L. Kirchner, M. C. Stumpe, A. Hafez, et al., “Prediction of mortality from 12-lead electrocardiogram voltage data using a deep neural network,” Nature medicine, vol. 26, no. 6, pp. 886–891, 2020.
+'''
+
 class parallel_model_A(object):
     def __init__(self, kernel_initializer = 'he_normal'):
         self.kernel_initializer = kernel_initializer

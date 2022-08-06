@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn import preprocessing
 import gzip
 import TF_resnet_model as tflow_resnet
-import raghunath_tf_ecg_models as tflow_cnn
+import TF_dnn_ecg_models as tflow_cnn
 import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
@@ -26,18 +26,18 @@ from tensorflow.keras.models import Model
 import argparse
 import datetime
 
-# python3 train.py --method Raghunath_DNN --label_path ../demo_data/label.pickle --tabular_path ../demo_data/demographic_df.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz
+# python3 train.py --method Raghunath_DNN --label_path ../demo_data/label.pickle --tabular_path ../demo_data/tabular.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz
 
-# python3 train.py --method ResNet --label_path ../demo_data/label.pickle --tabular_path ../demo_data/demographic_df.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz 
+# python3 train.py --method ResNet --label_path ../demo_data/label.pickle --tabular_path ../demo_data/tabular.pickle --train_path ../demo_data/train.pickle --val_path ../demo_data/val.pickle --ecg_np_path ../demo_data/demo_ecg/%s.xml.npy.gz 
 
 if __name__ == "__main__":
     # Get data and train
     parser = argparse.ArgumentParser(description='Train neural network.')
-    parser.add_argument("--method", type=str, default='ResNet') # first, last, random, all
-    parser.add_argument("--label_path", type=str) # first, last, random, all
-    parser.add_argument("--tabular_path", type=str) # first, last, random, all
-    parser.add_argument("--train_path", type=str) # training data path
-    parser.add_argument("--val_path", type=str) # training data path
+    parser.add_argument("--method", type=str, default='ResNet') # ResNet or DNN
+    parser.add_argument("--label_path", type=str) # 
+    parser.add_argument("--tabular_path", type=str) #
+    parser.add_argument("--train_path", type=str) #
+    parser.add_argument("--val_path", type=str) #
     parser.add_argument("--ecg_np_path", type=str, default = "../demo_data/%s.xml.npy.gz") # ECG data path
     
     args = parser.parse_args()
@@ -107,7 +107,7 @@ if __name__ == "__main__":
                  EarlyStopping(patience=9,  # Patience should be larger than the one in ReduceLROnPlateau
                                min_delta=0.00001)]
 
-    if method == 'Raghunath_DNN':
+    if method == 'DNN':
         training_generator = tflow_cnn.DataGenerator_raghunath_lab(train, label_df, demographic=demographic_df, 
                                                             n_classes=label_number, batch_size=batch_size, demographic_size=demographic_size,
                                                             np_path = ecg_np_path)
@@ -127,7 +127,7 @@ if __name__ == "__main__":
         model = tflow_resnet.get_model_lab(label_number, lab_number=demographic_size)
 
     else:
-        print ('method error, should be one of ResNet or Raghunath_DNN')
+        print ('method error, should be one of ResNet or DNN')
         
     model.compile(loss=loss, optimizer=opt)
     # Create log
