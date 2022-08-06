@@ -5,7 +5,7 @@ This study focused on developing and evaluating ECG based mortality models to pr
 
 <Prediction task picture>
 
-![image2](https://user-images.githubusercontent.com/10427900/180932280-1df23e72-995f-44e7-9ae1-402d0e315ec8.png)
+![Screen Shot 2022-08-05 at 10 29 32 PM](https://user-images.githubusercontent.com/10427900/183233812-a8ea8824-6156-4554-8c37-e449541ff245.png)
 
 
 ## Requirements
